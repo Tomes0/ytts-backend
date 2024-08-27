@@ -12,8 +12,4 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
-      ddl-auto: update
-
-  session:
-    jdbc:
-      initialize-schema: always
+      ddl-auto: create-drop
