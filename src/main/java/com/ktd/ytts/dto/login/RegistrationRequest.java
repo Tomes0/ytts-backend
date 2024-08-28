@@ -1,0 +1,9 @@
+package com.ktd.ytts.dto.login;
+
+import lombok.Data;
+
+@Data
+public class RegistrationRequest {
+    private String username;
+    private String password;
+}

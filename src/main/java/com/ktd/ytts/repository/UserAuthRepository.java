@@ -1,13 +1,13 @@
 package com.ktd.ytts.repository;
 
 import com.ktd.ytts.model.UserAuth;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface UserAuthRepository extends Repository<UserAuth, Long> {
+@Repository
+public interface UserAuthRepository extends JpaRepository<UserAuth, Long> {
 
     Optional<UserAuth> findByUsername(String username);
-
-    void save(UserAuth userAuth);
 }

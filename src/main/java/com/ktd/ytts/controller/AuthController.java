@@ -4,6 +4,8 @@ import com.ktd.ytts.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.ktd.ytts.dto.login.RegistrationRequest;
+import com.ktd.ytts.dto.login.LoginRequest;
 
 @RestController
 @AllArgsConstructor
@@ -24,9 +26,4 @@ public class AuthController {
         return authService.register(registrationRequest);
     }
 
-    public record LoginRequest(String username, String password) {
-    }
-
-    public record RegistrationRequest(String username, String password) {
-    }
 }

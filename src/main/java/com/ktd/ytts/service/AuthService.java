@@ -1,7 +1,8 @@
 package com.ktd.ytts.service;
 
 import com.ktd.ytts.config.CustomUserDetailsService;
-import com.ktd.ytts.controller.AuthController;
+import com.ktd.ytts.dto.login.LoginRequest;
+import com.ktd.ytts.dto.login.RegistrationRequest;
 import com.ktd.ytts.model.UserAuth;
 import com.ktd.ytts.repository.UserAuthRepository;
 import lombok.AllArgsConstructor;
@@ -23,24 +24,23 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final ModelMapper modelMapper;
 
-    public ResponseEntity<String> register(AuthController.RegistrationRequest registrationRequest) {
+    public ResponseEntity<String> register(RegistrationRequest registrationRequest) {
 
-        System.out.println(userAuthRepository.findByUsername(registrationRequest.username()));
-
-        if (userAuthRepository.findByUsername(registrationRequest.username()).isPresent()) {
+        if (userAuthRepository.findByUsername(registrationRequest.getUsername()).isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is already taken");
         }
 
         UserAuth userAuth = modelMapper.map(registrationRequest, UserAuth.class);
+
         userDetailsService.saveUser(userAuth);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
-    public ResponseEntity<String> login(AuthController.LoginRequest loginRequest) {
+    public ResponseEntity<String> login(LoginRequest loginRequest) {
 
         Authentication authenticationRequest =
-                UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.username(), loginRequest.password());
+                UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getUsername(), loginRequest.getPassword());
 
         try {
             Authentication authenticationResponse = authenticationManager.authenticate(authenticationRequest);
