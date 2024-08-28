@@ -31,19 +31,21 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            PasswordEncoder passwordEncoder,
-            CustomUserDetailsService customUserDetailsService
-    ) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(customUserDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
-
-        return new ProviderManager(authenticationProvider);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(
+                BCryptPasswordEncoder.BCryptVersion.$2A
+        );
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authenticationManager(
+            PasswordEncoder passwordEncoder,
+            PersistentUserDetailsService persistentUserDetailsService
+    ) {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(persistentUserDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+
+        return new ProviderManager(authenticationProvider);
     }
 }

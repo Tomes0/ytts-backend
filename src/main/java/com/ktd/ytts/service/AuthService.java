@@ -1,6 +1,6 @@
 package com.ktd.ytts.service;
 
-import com.ktd.ytts.config.CustomUserDetailsService;
+import com.ktd.ytts.config.PersistentUserDetailsService;
 import com.ktd.ytts.dto.login.LoginRequest;
 import com.ktd.ytts.dto.login.RegistrationRequest;
 import com.ktd.ytts.model.UserAuth;
@@ -20,13 +20,13 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final UserAuthRepository userAuthRepository;
-    private final CustomUserDetailsService userDetailsService;
+    private final PersistentUserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
     private final ModelMapper modelMapper;
 
     public ResponseEntity<String> register(RegistrationRequest registrationRequest) {
 
-        if (userAuthRepository.findByUsername(registrationRequest.getUsername()).isPresent()) {
+        if (userAuthRepository.findUserAuthByUsername(registrationRequest.username()).isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is already taken");
         }
 
@@ -40,11 +40,11 @@ public class AuthService {
     public ResponseEntity<String> login(LoginRequest loginRequest) {
 
         Authentication authenticationRequest =
-                UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getUsername(), loginRequest.getPassword());
+                UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.username(), loginRequest.password());
 
         try {
             Authentication authenticationResponse = authenticationManager.authenticate(authenticationRequest);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User logged in successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("User logged in successfully");
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
