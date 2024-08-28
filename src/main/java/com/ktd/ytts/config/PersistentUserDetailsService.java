@@ -1,6 +1,6 @@
 package com.ktd.ytts.config;
 
-import com.ktd.ytts.model.UserAuth;
+import com.ktd.ytts.model.UserAuthentication;
 import com.ktd.ytts.repository.UserAuthRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,14 +20,14 @@ public class PersistentUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAuth userAuth = userAuthRepository.findUserAuthByUsername(username)
+        UserAuthentication userAuthentication = userAuthRepository.findUserAuthByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        return modelMapper.map(userAuth, UserDetails.class);
+        return modelMapper.map(userAuthentication, UserDetails.class);
     }
 
-    public void saveUser(UserAuth userAuth) {
-        userAuth.setPassword(passwordEncoder.encode(userAuth.getPassword()));
-        userAuthRepository.save(userAuth);
+    public void saveUser(UserAuthentication userAuthentication) {
+        userAuthentication.setPassword(passwordEncoder.encode(userAuthentication.getPassword()));
+        userAuthRepository.save(userAuthentication);
     }
 }

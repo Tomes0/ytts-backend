@@ -3,7 +3,7 @@ package com.ktd.ytts.service;
 import com.ktd.ytts.config.PersistentUserDetailsService;
 import com.ktd.ytts.dto.login.LoginRequest;
 import com.ktd.ytts.dto.login.RegistrationRequest;
-import com.ktd.ytts.model.UserAuth;
+import com.ktd.ytts.model.UserAuthentication;
 import com.ktd.ytts.repository.UserAuthRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,9 +30,9 @@ public class AuthService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is already taken");
         }
 
-        UserAuth userAuth = modelMapper.map(registrationRequest, UserAuth.class);
+        UserAuthentication userAuthentication = modelMapper.map(registrationRequest, UserAuthentication.class);
 
-        userDetailsService.saveUser(userAuth);
+        userDetailsService.saveUser(userAuthentication);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
