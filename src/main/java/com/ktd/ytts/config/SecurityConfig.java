@@ -20,13 +20,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize
+        http
+                .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/auth/login", "/auth/register").permitAll()
-                .anyRequest().authenticated()
-        ).httpBasic(withDefaults());
-
-        http.csrf(AbstractHttpConfigurer::disable);
-
+                .anyRequest().authenticated())
+                .httpBasic(withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+//                .rememberMe(rememberMeConfigurer ->
+//                    rememberMeConfigurer
+//                            .alwaysRemember(true)
+//                            .
+//                )
+        ;
         return http.build();
     }
 
