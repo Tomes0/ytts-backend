@@ -4,7 +4,7 @@ import com.ktd.ytts.config.PersistentUserDetailsService;
 import com.ktd.ytts.dto.login.LoginRequest;
 import com.ktd.ytts.dto.login.RegistrationRequest;
 import com.ktd.ytts.model.UserAuthentication;
-import com.ktd.ytts.repository.UserAuthRepository;
+import com.ktd.ytts.repository.UserAuthenticationRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -19,14 +19,14 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AuthService {
 
-    private final UserAuthRepository userAuthRepository;
+    private final UserAuthenticationRepository userAuthenticationRepository;
     private final PersistentUserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
     private final ModelMapper modelMapper;
 
     public ResponseEntity<String> register(RegistrationRequest registrationRequest) {
 
-        if (userAuthRepository.findUserAuthByUsername(registrationRequest.username()).isPresent()) {
+        if (userAuthenticationRepository.findUserAuthByUsername(registrationRequest.username()).isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is already taken");
         }
 

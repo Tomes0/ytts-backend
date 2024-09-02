@@ -31,6 +31,8 @@ public class UserAuthentication implements org.springframework.security.core.use
     @OneToMany(mappedBy = "userAuthentication", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<UserAuthority> userAuthorities;
 
+    private String jwtToken;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return userAuthorities

@@ -11,10 +11,10 @@ import lombok.ToString;
 public class UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToOne
-    @MapsId
     @JoinColumn(name = "id")
     private UserAuthentication userAuthentication;
 

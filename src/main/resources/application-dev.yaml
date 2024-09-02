@@ -19,6 +19,10 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+  session:
+    jdbc:
+      initialize-schema: always
+
 logging:
   level:
     org.hibernate.sql: debug

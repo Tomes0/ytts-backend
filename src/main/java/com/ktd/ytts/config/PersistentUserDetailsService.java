@@ -1,7 +1,7 @@
 package com.ktd.ytts.config;
 
 import com.ktd.ytts.model.UserAuthentication;
-import com.ktd.ytts.repository.UserAuthRepository;
+import com.ktd.ytts.repository.UserAuthenticationRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersistentUserDetailsService implements UserDetailsService {
 
-    private final UserAuthRepository userAuthRepository;
+    private final UserAuthenticationRepository userAuthenticationRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAuthentication userAuthentication = userAuthRepository.findUserAuthByUsername(username)
+        UserAuthentication userAuthentication = userAuthenticationRepository.findUserAuthByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         return modelMapper.map(userAuthentication, UserDetails.class);
@@ -28,6 +28,8 @@ public class PersistentUserDetailsService implements UserDetailsService {
 
     public void saveUser(UserAuthentication userAuthentication) {
         userAuthentication.setPassword(passwordEncoder.encode(userAuthentication.getPassword()));
-        userAuthRepository.save(userAuthentication);
+        userAuthenticationRepository.save(userAuthentication);
     }
+
+
 }
