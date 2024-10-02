@@ -6,9 +6,9 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Table(name = "user_details")
+@Table(name = "user_detail")
 @ToString(exclude = {"userAuthentication"})
-public class UserDetails {
+public class UserDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

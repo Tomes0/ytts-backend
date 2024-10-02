@@ -9,7 +9,6 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     properties:
       hibernate:
@@ -17,11 +16,8 @@ spring:
 
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
 
-  session:
-    jdbc:
-      initialize-schema: always
 
 logging:
   level:

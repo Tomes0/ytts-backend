@@ -26,7 +26,7 @@ public class UserAuthentication implements org.springframework.security.core.use
 
     @OneToOne(mappedBy = "userAuthentication", cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn
-    private UserDetails userDetails;
+    private UserDetail userDetails;
 
     @OneToMany(mappedBy = "userAuthentication", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<UserAuthority> userAuthorities;
@@ -44,7 +44,7 @@ public class UserAuthentication implements org.springframework.security.core.use
     @PrePersist
     public void prePersist() {
         if (this.userDetails == null) {
-            this.userDetails = new UserDetails();
+            this.userDetails = new UserDetail();
             this.userDetails.setUserAuthentication(this);
         } else if (this.userDetails.getUserAuthentication() == null) {
             this.userDetails.setUserAuthentication(this);
